@@ -25,7 +25,6 @@ class State(rx.State):
             print(f"Error syncing bucket: {e}")
         response = supabase.table("books").select("*").execute()
         self.books = response.data
-        print("Loaded books into Reflex State:", self.books)
 
     def set_search_query(self, query: str):
         self.search_query = query
@@ -88,18 +87,28 @@ def book_row(book: dict) -> rx.Component:
         rx.table.cell(book.get("title", "Untitled")),
         rx.table.cell(book.get("author", "Unknown")),
         rx.table.cell(
-            rx.button("Read", on_click=lambda: State.select_book(book), size="1")
+            rx.button("Read", on_click=lambda: State.select_book(book), size="1", color_scheme="orange", variant="solid", width="100px")
         ),
     )
 
 def library_view() -> rx.Component:
     return rx.vstack(
-        rx.heading("BookaBase", size="6"),
+        rx.heading(
+            "B O O K A B A S E",
+            background_color="orange",
+            background_clip="text",
+            font_weight="bold",
+            font_size="2em",
+            font_family="'Roboto Mono', monospace",
+            padding="75px",
+            padding_top="150px",
+            color_scheme="orange",
+        ),
         rx.input(
             placeholder="Search by title or author...",
             on_change=State.set_search_query,
             width="100%",
-            max_width="400px",
+            max_width="1000px",
         ),
         rx.table.root(
             rx.table.header(
@@ -113,26 +122,33 @@ def library_view() -> rx.Component:
                 rx.foreach(State.filtered_books, book_row)
             ),
             width="100%",
+            max_width="1000px",
         ),
         spacing="4",
         padding="6",
-        max_width="800px",
+        width="100%",
+        max_width="",
+        align="center",
+        justify_content="center"
     )
 
 def reader_view() -> rx.Component:
     return rx.vstack(
         rx.hstack(
-            rx.button("← Back to BookaBase", on_click=State.close_reader),
-            rx.heading(State.current_book["title"], size="5"),
+            rx.button("← Back to BookaBase", on_click=State.close_reader, color_scheme="orange"),
+            rx.heading(State.current_book["title"], size="5", color_scheme="orange", font_family="'Roboto Mono', monospace"),
             rx.hstack(
-                rx.button("< Previous", on_click=State.prev_chapter),
-                rx.text(f"Chapter {State.current_chapter_idx + 1}"),
-                rx.button("Next >", on_click=State.next_chapter),
+                rx.button("< Previous", on_click=State.prev_chapter, color_scheme="orange"),
+                rx.text(f"Chapter {State.current_chapter_idx + 1}", padding="25px",),
+                rx.button("Next >", on_click=State.next_chapter, color_scheme="orange"),
+                align_items="center",
             ),
             justify="between",
             width="100%",
-            padding="4",
+            padding="15px",
             border_bottom="1px solid #e5e7eb",
+            color_scheme="orange",
+            align_items = "center",
         ),
         rx.box(
             rx.html(State.chapters[State.current_chapter_idx]),
@@ -151,5 +167,9 @@ def index() -> rx.Component:
         library_view(),
     )
 
-app = rx.App()
+app = rx.App(
+    stylesheets=[
+        "https://googleapis.com",
+    ]
+)
 app.add_page(index, on_load=State.load_library)

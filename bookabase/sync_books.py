@@ -12,7 +12,6 @@ BUCKET_NAME = "epubs"
 
 def sync_bucket_to_db():
     files = supabase.storage.from_(BUCKET_NAME).list()
-    print("Files found in bucket:", files)
     existing_books = supabase.table("books").select("file_url").execute().data
     existing_urls = {b["file_url"] for b in existing_books}
 
