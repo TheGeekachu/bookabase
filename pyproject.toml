@@ -8,5 +8,6 @@ dependencies = [
     "beautifulsoup4>=4.15.0",
     "ebooklib>=0.20",
     "reflex>=0.9.11.post1",
+    "requests>=2.34.2",
     "supabase>=2.31.0",
 ]
