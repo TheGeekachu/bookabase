@@ -1,0 +1,3 @@
+This is my book database, Bookabase! Anybody can read a book, anywhere! Instead of jumping between locked-down software or pirating pdf's, read the official version of the book for free. I was inspired to make this when I realised that to read an epub in a nice format like Kindle, people were paying several time more than they should be for files they won't even own. So I decided to make a free, open source place to read your book in peace.
+
+**ENJOY!!!! Made by TheGeekachu**
